@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RiderReach NG — Logistics Coverage & Capacity Network</title>
+  <meta name="description" content="RiderReach connects consumers and logistics companies to local delivery coverage, trusted riders and unused inter-state transport capacity.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="tailwind.config.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-warm text-ink min-h-screen">
+  <header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+      <button class="flex items-center gap-3" onclick="showView('home')">
+        <div class="h-10 w-10 rounded-2xl bg-brand text-white grid place-items-center font-black">RR</div>
+        <div class="text-left">
+          <div class="font-extrabold tracking-tight text-lg">RiderReach<span class="text-brand"> NG</span></div>
+          <div class="text-[11px] text-slate-500 -mt-1">Logistics coverage network</div>
+        </div>
+      </button>
+      <nav class="hidden md:flex items-center gap-1 text-sm font-semibold">
+        <button class="nav-btn active" data-view="home" onclick="showView('home')">Find Coverage</button>
+        <button class="nav-btn" data-view="logistics" onclick="showView('logistics')">For Logistics</button>
+        <button class="nav-btn" data-view="backhaul" onclick="showView('backhaul')">Backhaul</button>
+        <button class="nav-btn" data-view="network" onclick="showView('network')">Network</button>
+      </nav>
+      <button onclick="openJoinModal()" class="hidden sm:block rounded-xl bg-brand text-white px-4 py-2.5 font-bold text-sm shadow-sm hover:bg-brandDark">Join the network</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="view-home" class="view">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-10">
+        <div class="grid lg:grid-cols-[1.15fr_.85fr] gap-10 items-center">
+          <div>
+            <div class="inline-flex items-center gap-2 rounded-full bg-mint text-brand px-3 py-1.5 text-xs font-bold mb-5">
+              <span class="h-2 w-2 rounded-full bg-brand"></span> Coverage intelligence for Nigerian logistics
+            </div>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.03] max-w-3xl">
+              If your network can't reach there, <span class="text-brand">someone already does.</span>
+            </h1>
+            <p class="mt-5 text-lg text-slate-600 max-w-2xl">
+              RiderReach connects consumers and logistics companies to local riders who already serve hard-to-reach destinations — and helps transport operators monetize capacity that would otherwise travel empty.
+            </p>
+            <div class="mt-7 flex flex-wrap gap-3">
+              <button onclick="scrollToSearch()" class="rounded-xl bg-brand text-white px-5 py-3 font-bold hover:bg-brandDark">Find a delivery route</button>
+              <button onclick="showView('logistics')" class="rounded-xl border border-slate-300 bg-white px-5 py-3 font-bold hover:border-brand hover:text-brand">I'm a logistics company</button>
+              <button onclick="showView('backhaul')" class="rounded-xl border border-slate-300 bg-white px-5 py-3 font-bold hover:border-brand hover:text-brand">I have truck capacity</button>
+            </div>
+            <div class="mt-8 grid grid-cols-3 gap-4 max-w-xl">
+              <div><div class="text-2xl font-black">18+</div><div class="text-xs text-slate-500">demo operators</div></div>
+              <div><div class="text-2xl font-black">50+</div><div class="text-xs text-slate-500">seeded localities</div></div>
+              <div><div class="text-2xl font-black">2</div><div class="text-xs text-slate-500">capacity layers</div></div>
+            </div>
+          </div>
+          <div class="rounded-3xl bg-ink text-white p-6 shadow-xl">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-xs uppercase tracking-[.18em] text-slate-400">The problem</div>
+                <div class="text-xl font-extrabold mt-1">Unused logistics capacity</div>
+              </div>
+              <div class="text-2xl">↗</div>
+            </div>
+            <div class="mt-6 space-y-3">
+              <div class="rounded-2xl bg-white/10 p-4">
+                <div class="text-sm font-bold">Local coverage gap</div>
+                <div class="text-xs text-slate-300 mt-1">A logistics company receives an order to an area its riders decline.</div>
+              </div>
+              <div class="flex justify-center text-slate-400">↓</div>
+              <div class="rounded-2xl bg-brand/30 border border-brand/40 p-4">
+                <div class="text-sm font-bold">RiderReach match</div>
+                <div class="text-xs text-slate-300 mt-1">Find a local operator with verified coverage and a DeliveryScore.</div>
+              </div>
+              <div class="flex justify-center text-slate-400">↓</div>
+              <div class="rounded-2xl bg-white/10 p-4">
+                <div class="text-sm font-bold">Backhaul opportunity</div>
+                <div class="text-xs text-slate-300 mt-1">A truck returning empty can match with cargo moving the same way.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="search-panel" class="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+        <div class="rounded-3xl bg-white border border-slate-200 shadow-sm overflow-hidden">
+          <div class="p-6 sm:p-8 border-b border-slate-100">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <div class="text-xs font-bold uppercase tracking-widest text-brand">Local coverage finder</div>
+                <h2 class="text-2xl font-black mt-1">Find who already delivers there</h2>
+                <p class="text-sm text-slate-500 mt-1">Search the destination first. No map or routing needed.</p>
+              </div>
+              <div class="rounded-xl bg-mint px-4 py-3 text-sm"><span class="font-bold text-brand">Prototype:</span> seeded data simulates network coverage.</div>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-4 mt-7">
+              <div class="lg:col-span-5 relative">
+                <label class="label">Destination</label>
+                <input id="destination" autocomplete="off" class="input" placeholder="e.g. Agbowa, Ijede, Epe..." oninput="handleDestinationInput()">
+                <div id="suggestions" class="absolute z-20 left-0 right-0 mt-2 hidden bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden"></div>
+                <div class="flex flex-wrap gap-2 mt-2">
+                  <button class="quick" onclick="setDestination('Agbowa', true)">Agbowa</button>
+                  <button class="quick" onclick="setDestination('Ijede', true)">Ijede</button>
+                  <button class="quick" onclick="setDestination('Epe', true)">Epe</button>
+                  <button class="quick" onclick="setDestination('Badagry', true)">Badagry</button>
+                  <button class="quick" onclick="setDestination('Ibeju-Lekki', true)">Ibeju-Lekki</button>
+                </div>
+              </div>
+              <div class="lg:col-span-3">
+                <label class="label">Pickup area</label>
+                <input id="pickup" class="input" value="Ikorodu" placeholder="Where should we collect from?">
+              </div>
+              <div class="lg:col-span-2">
+                <label class="label">Parcel size</label>
+                <select id="parcelSize" class="input">
+                  <option>Small</option><option>Medium</option><option>Bulky</option>
+                </select>
+              </div>
+              <div class="lg:col-span-2 flex items-end">
+                <button onclick="runSearch()" class="w-full rounded-xl bg-brand text-white px-4 py-3 font-bold hover:bg-brandDark">Search coverage</button>
+              </div>
+            </div>
+            <label class="mt-4 flex items-center gap-2 text-sm text-slate-600 cursor-pointer w-fit">
+              <input id="fragile" type="checkbox" class="accent-brand h-4 w-4"> Fragile parcel
+            </label>
+          </div>
+
+          <div id="results" class="hidden">
+            <div class="p-6 sm:p-8 bg-slate-50 border-b border-slate-100">
+              <div id="priceBanner"></div>
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-5">
+                <div>
+                  <h3 class="font-extrabold text-lg">Available local coverage</h3>
+                  <p id="resultMeta" class="text-sm text-slate-500"></p>
+                </div>
+                <select id="sortBy" onchange="renderResults()" class="rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold">
+                  <option value="score">Sort by DeliveryScore</option>
+                  <option value="price">Lowest price</option>
+                  <option value="rating">Rating</option>
+                  <option value="response">Fastest response</option>
+                </select>
+              </div>
+              <div id="riderCards" class="grid md:grid-cols-2 xl:grid-cols-3 gap-4 mt-5"></div>
+              <div id="noCoverage" class="hidden rounded-2xl bg-white border border-slate-200 p-7 text-center">
+                <div class="text-3xl">📍</div>
+                <h3 class="font-extrabold text-lg mt-2">We don't have a match yet</h3>
+                <p class="text-sm text-slate-500 mt-1 max-w-md mx-auto">Tell us the destination. We'll add it to the coverage expansion queue.</p>
+                <button onclick="openJoinModal()" class="mt-4 rounded-xl bg-brand text-white px-4 py-2.5 font-bold">Request coverage</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOGISTICS -->
+    <section id="view-logistics" class="view hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        <div class="max-w-3xl">
+          <div class="eyebrow">For logistics companies</div>
+          <h2 class="page-title">Turn declined destinations into fulfilled deliveries.</h2>
+          <p class="page-copy">When your existing riders don't cover an area, don't automatically lose the order. Use RiderReach to discover local capacity, compare reliability, and hand the job to a suitable operator.</p>
+        </div>
+        <div class="grid lg:grid-cols-3 gap-5 mt-8">
+          <div class="metric-card"><div class="metric-number">↓</div><div class="font-extrabold mt-2">Fewer declined jobs</div><p>Extend geographic reach without building a rider base in every community.</p></div>
+          <div class="metric-card"><div class="metric-number">₦</div><div class="font-extrabold mt-2">Recover revenue</div><p>Keep more customer orders that would otherwise be cancelled or abandoned.</p></div>
+          <div class="metric-card"><div class="metric-number">✓</div><div class="font-extrabold mt-2">Choose by reliability</div><p>Use DeliveryScore, completion history and response time when selecting local capacity.</p></div>
+        </div>
+
+        <div class="mt-8 rounded-3xl bg-white border border-slate-200 shadow-sm p-6 sm:p-8">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div><div class="eyebrow">Partner console · demo</div><h3 class="section-title">Find a local fulfilment partner</h3></div>
+            <button onclick="openJoinModal('logistics')" class="rounded-xl bg-brand text-white px-4 py-2.5 font-bold">Partner with RiderReach</button>
+          </div>
+          <div class="grid md:grid-cols-3 gap-4 mt-6">
+            <div><label class="label">Destination</label><input id="logDest" class="input" value="Agbowa"></div>
+            <div><label class="label">Parcel</label><select id="logParcel" class="input"><option>Medium</option><option>Small</option><option>Bulky</option></select></div>
+            <div class="flex items-end"><button onclick="findLogisticsCoverage()" class="w-full rounded-xl bg-ink text-white px-4 py-3 font-bold">Find partners</button></div>
+          </div>
+          <div id="logisticsResults" class="mt-6"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BACKHAUL -->
+    <section id="view-backhaul" class="view hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        <div class="grid lg:grid-cols-[1fr_.8fr] gap-10 items-start">
+          <div>
+            <div class="eyebrow">Backhaul marketplace</div>
+            <h2 class="page-title">Don't let trucks return empty.</h2>
+            <p class="page-copy">Match available truck capacity with cargo moving along the return route. The same RiderReach matching layer can unlock inter-state capacity that already exists.</p>
+            <div class="mt-7 flex flex-wrap gap-3">
+              <button onclick="document.getElementById('backhaulMode').value='cargo'; updateBackhaulMode()" class="rounded-xl bg-brand text-white px-4 py-3 font-bold">I have cargo</button>
+              <button onclick="document.getElementById('backhaulMode').value='truck'; updateBackhaulMode()" class="rounded-xl border border-slate-300 bg-white px-4 py-3 font-bold">I have truck capacity</button>
+            </div>
+          </div>
+          <div class="rounded-3xl bg-ink text-white p-6">
+            <div class="text-xs uppercase tracking-widest text-slate-400">The opportunity</div>
+            <div class="text-3xl font-black mt-2">Empty return capacity → earning capacity</div>
+            <p class="text-slate-300 mt-3 text-sm">A truck already travelling a route can potentially earn on the return journey instead of coming back empty.</p>
+          </div>
+        </div>
+
+        <div class="mt-10 rounded-3xl bg-white border border-slate-200 shadow-sm p-6 sm:p-8">
+          <div class="flex items-center justify-between gap-4">
+            <div><div class="eyebrow">Backhaul matching · demo</div><h3 class="section-title">Match route and capacity</h3></div>
+            <select id="backhaulMode" onchange="updateBackhaulMode()" class="rounded-xl border border-slate-300 px-3 py-2 font-semibold"><option value="cargo">I have cargo</option><option value="truck">I have truck capacity</option></select>
+          </div>
+          <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+            <div><label class="label">From</label><input id="bhFrom" class="input" value="Lagos"></div>
+            <div><label class="label">To</label><input id="bhTo" class="input" value="Benin"></div>
+            <div><label class="label">Capacity / load</label><select id="bhLoad" class="input"><option>Up to 1 ton</option><option>1–5 tons</option><option>5–10 tons</option><option>10+ tons</option></select></div>
+            <div class="flex items-end"><button onclick="searchBackhaul()" class="w-full rounded-xl bg-brand text-white px-4 py-3 font-bold">Find matches</button></div>
+          </div>
+          <div id="backhaulResults" class="mt-6"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NETWORK -->
+    <section id="view-network" class="view hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        <div class="max-w-3xl">
+          <div class="eyebrow">Network intelligence</div>
+          <h2 class="page-title">One trust layer for riders, logistics partners and transport operators.</h2>
+          <p class="page-copy">DeliveryScore is designed to make capacity easier to compare. In the prototype, scores are seeded demo values. In production, they should be calculated from verified platform activity.</p>
+        </div>
+        <div class="mt-8 rounded-3xl bg-white border border-slate-200 shadow-sm p-6 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div><div class="eyebrow">Operator directory</div><h3 class="section-title">Coverage + reliability</h3></div>
+            <select id="networkType" onchange="renderNetwork()" class="rounded-xl border border-slate-300 px-3 py-2 font-semibold"><option value="all">All operators</option><option value="rider">Local riders</option><option value="truck">Truck operators</option></select>
+          </div>
+          <div id="networkTable" class="mt-6 overflow-x-auto"></div>
+        </div>
+        <div class="mt-8 grid md:grid-cols-2 gap-5">
+          <div class="rounded-3xl bg-mint border border-emerald-100 p-6">
+            <div class="text-3xl">📊</div><h3 class="font-extrabold text-lg mt-3">How DeliveryScore works</h3>
+            <p class="text-sm text-slate-600 mt-2">Future production scoring can combine successful deliveries, on-time performance, completion rate, customer ratings, response behaviour and cancellations.</p>
+          </div>
+          <div class="rounded-3xl bg-white border border-slate-200 p-6">
+            <div class="text-3xl">🔐</div><h3 class="font-extrabold text-lg mt-3">Trust before scale</h3>
+            <p class="text-sm text-slate-600 mt-2">Verification, transaction history and dispute handling should sit behind the score before it is used for high-value freight.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- JOIN MODAL -->
+  <div id="joinModal" class="hidden fixed inset-0 z-50 bg-slate-950/50 p-4 grid place-items-center">
+    <div class="bg-white rounded-3xl w-full max-w-lg shadow-2xl p-6 sm:p-8">
+      <div class="flex justify-between gap-4"><div><div class="eyebrow">Expand the network</div><h3 class="section-title">Join RiderReach</h3></div><button onclick="closeJoinModal()" class="text-slate-400 text-2xl">×</button></div>
+      <p class="text-sm text-slate-500 mt-2">Prototype lead form. Submissions are stored locally in your browser.</p>
+      <form onsubmit="submitJoin(event)" class="mt-6 space-y-4">
+        <div><label class="label">I am a...</label><select id="joinType" class="input"><option value="rider">Local rider</option><option value="logistics">Logistics company</option><option value="truck">Truck / transport operator</option></select></div>
+        <div><label class="label">Name / business</label><input id="joinName" required class="input" placeholder="e.g. Ade Dispatch"></div>
+        <div><label class="label">Phone</label><input id="joinPhone" required class="input" placeholder="+234..."></div>
+        <div><label class="label">Primary area / route</label><input id="joinArea" required class="input" placeholder="e.g. Ikorodu → Agbowa"></div>
+        <button class="w-full rounded-xl bg-brand text-white py-3 font-bold">Submit interest</button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="border-t border-slate-200 bg-white mt-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col md:flex-row gap-4 justify-between text-sm text-slate-500">
+      <div><span class="font-extrabold text-ink">RiderReach NG</span> — working prototype for coverage and logistics capacity matching.</div>
+      <div>Seeded demo data · No live rider signups yet</div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
